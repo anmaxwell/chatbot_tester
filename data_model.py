@@ -21,6 +21,6 @@ class Conversation:
 class State:
   title: str = "My test chatbot"
   input: str
-  output: str
+  output: list[ChatMessage]
   is_open: bool = False
   gemini_api_key: str = ""

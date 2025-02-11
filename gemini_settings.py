@@ -1,7 +1,7 @@
 import google.generativeai as genai
 from typing import Iterable
 
-from data_model import State
+from data_model import ChatMessage, State
 import mesop as me
 
 generation_config = {
@@ -15,12 +15,15 @@ def configure_gemini():
     state = me.state(State)
     genai.configure(api_key=state.gemini_api_key)
 
-def send_prompt_flash(prompt: str) -> Iterable[str]:
+def send_prompt_flash(prompt: str, history: list[ChatMessage]) -> Iterable[str]:
     configure_gemini()
     model = genai.GenerativeModel(
         model_name="gemini-1.5-flash-latest",
         generation_config=generation_config,
     )
     chat_session = model.start_chat()
+    for message in history:
+        if message.role == "user":
+            prompt += message.content + "\n"  # Add newline for separation
     for chunk in chat_session.send_message(prompt, stream=True):
         yield chunk.text

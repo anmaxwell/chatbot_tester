@@ -105,6 +105,7 @@ def page():
     mel.chat(transform, title="Mesop Demo Chat", bot_user="Mesop Bot")
   
 def transform(input: str, history: list[mel.ChatMessage]):
+  state = me.state(State)
   return send_prompt_flash(input, history)
 
 _STYLE_CONTAINER = me.Style(
