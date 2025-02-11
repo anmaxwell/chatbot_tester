@@ -22,6 +22,7 @@ def send_prompt_flash(prompt: str, history: list[ChatMessage]) -> Iterable[str]:
         generation_config=generation_config,
     )
     chat_session = model.start_chat()
+    # add the user history to the prompt
     for message in history:
         if message.role == "user":
             prompt += message.content + "\n"  # Add newline for separation
